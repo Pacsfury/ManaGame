@@ -7,7 +7,7 @@
 #include "../include/cards.hpp"
 #include "../include/style.hpp"
 
-int main(void) {
+int main(int argc, char* argv[]) {
     CardManager cards;
     int elixir = 10;
     int pts = 0;
@@ -32,7 +32,12 @@ int main(void) {
 
         std::cout << "Choose a card by number: ";
         int selection = 0;
-        std::cin >> selection;
+        
+        // Detects when the code has '--test' or some other parameters
+		if (argc == 2) { //argc has 1 by default, adding --test behind it makes 2.
+			selection = rand() % choices.size() + 1; //chooses from 1 to 3. It will 'play' by randomizing it's choices until Elixirs are all gone.
+		} else
+            std::cin >> selection;
 
         if (selection >= 1 && selection <= static_cast<int>(choices.size())) {
             cards.runCard(choices[selection - 1], &pts, &elixir);
